@@ -67,7 +67,7 @@ def get_random_message(games_end, winner, bot_choice) -> any:
     ]
     lose_messages: list[str] = [
         "Loser!", 
-        "Fatality!\n!", 
+        "Fatality!", 
         "You got smashed!",
         "Defeated!",
     ]
