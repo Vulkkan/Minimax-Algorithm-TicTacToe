@@ -1,0 +1,231 @@
+ScreenManager:
+    PvBotSetupScreen:
+        name: "pvbot_setup_screen"
+    PvBotPositionSelectionScreen:
+        name: "pvbot_selection_screen"
+    GameScreen:
+        name: "game_screen"
+
+
+<PvBotSetupScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDBoxLayout:
+            size_hint_y: 1
+            spacing: dp(100)
+
+            MDLabel:
+                id: appTitle
+                markup: True
+                font_size: "80sp"
+                halign: "center"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(20)
+            padding: dp(80)
+
+            MDLabel:
+                text: "[color=556677]Welcome to KivyTicTac\nTicTacToe game.[/color]\n\n\n\n\n"
+                font_size: "24sp"
+                markup: True
+                halign: "center"
+
+            MDLabel:
+                text: "[color=334455]Your Name?[/color]"
+                font_size: "16sp"
+                markup: True
+                halign: "center"
+
+            MDTextField:
+                id: name_input
+                text: ''
+                hint_text: "Human"
+                font_size: "14sp"
+                size_hint_x: None
+                width: dp(200)
+                pos_hint: {"center_x": 0.5}
+                line_color_focus: app.theme_cls.primary_color
+                mode: "rectangle"
+                icon_left: 'account'
+                background_color: [1, 1, 1, 1]
+
+            MDRaisedButton:
+                text: "    Next    "
+                pos_hint: {"center_x": 0.5}
+                on_release:
+                    app.player_name = name_input.text if len(name_input.text) > 0 else 'Human'
+                    app.root.current = 'pvbot_selection_screen'
+
+
+<PvBotPositionSelectionScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(20)
+            padding: dp(5)
+
+            MDBoxLayout:
+                size_hint_y: 1.5
+
+                MDLabel:
+                    id: appTitle
+                    markup: True
+                    font_size: "80sp"
+                    halign: "center"
+
+            MDLabel:
+                text: "[color=556677]Choose who plays first[/color]"
+                markup: True
+                font_size: "32sp"
+                halign: "center"
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                spacing: dp(5)
+                padding: dp(5)
+
+                MDStackLayout:
+                    orientation: 'lr-tb'
+
+                    MDLabel:
+                        text: "[color=334455]Be the first to make a move[/color]"
+                        markup: True
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: "center"
+
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        #height: self.texture_size[1]
+                        pos_hint: {"center_x": 0.5}
+
+                        MDRaisedButton:
+                            text: "Play as X"
+                            valign: 'top'
+                            pos_hint: {"center_x": 0.5}
+                            on_release:
+                                app.start_game("X")
+                                app.root.current = "game_screen"
+
+                MDStackLayout:
+                    orientation: 'lr-tb'
+
+                    MDLabel:
+                        text: "[color=334455]The bot starts the game[/color]"
+                        markup: True
+                        halign: "center"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: "center"
+
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        pos_hint: {"center_x": 0.5}
+
+                        MDRaisedButton:
+                            halign: "center"
+                            text: "Play as O"
+                            pos_hint: {"center_x": 0.5}
+                            on_release:
+                                app.start_game("O")
+                                app.root.current = "game_screen"
+
+<GameScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        # MDTopAppBar:
+        #     id: appBarTitle
+        #     # right_action_items: [["dots-vertical", lambda x: app.exit(), "Go home"]]
+        #     anchor_title: 'left'
+        #     md_bg_color: [1, 1, 1, 1]
+        #     shadow_color: (0.6, 0.6, 0.6, 0.1)
+        MDBoxLayout:
+            size_hint_y: 0.2
+            padding: dp(50)
+
+            MDLabel:
+                id: appTitle
+                markup: True
+                font_size: "40sp"
+                halign: "center"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(20)
+
+            AnchorLayout:
+                padding: dp(80)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: dp(10)
+                    size_hint_x: 1
+
+                    AnchorLayout:
+                        anchor_x: "left"
+
+                        MDIcon:
+                            id: playerAvatar
+                            icon: "account"
+                            halign: "center"
+                            font_size: "80sp"
+                            theme_text_color: "Custom"
+
+                        MDLabel:
+                            id: player_thinking
+                            text: ""
+                            font_size: "16sp"
+                            halign: "center"
+
+
+                    MDLabel:
+                        id: players_label
+                        text: ""
+                        font_size: "18sp"
+                        halign: "center"
+
+                    AnchorLayout:
+                        anchor_x: "right"
+
+                        MDIcon:
+                            id: botAvatar
+                            icon: "robot"
+                            halign: "center"
+                            font_size: "80sp"
+                            theme_text_color: "Custom"
+
+                        MDLabel:
+                            id: bot_thinking
+                            text: ""
+                            font_size: "16sp"
+                            halign: "center"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: dp(300)
+                spacing: dp(20)
+                padding: dp(30)
+
+                GridLayout:
+                    id: grid
+                    cols: 3
+                    rows: 3
+                    size_hint: None, None
+                    size: dp(250), dp(250)
+                    pos_hint: {"center_x": 0.5}
+                    spacing: dp(1)
+
+                MDRaisedButton:
+                    id: quitBtn
+                    text: "      Quit      "
+                    pos_hint: {"center_x": 0.5}
+                    on_release:
+                        app.exit()
